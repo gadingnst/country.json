@@ -1,0 +1,12 @@
+{
+  "name": "country.json",
+  "version": "1.0.0",
+  "main": "generate.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "node generate.js"
+  },
+  "dependencies": {
+    "axios": "^0.19.0"
+  }
+}
