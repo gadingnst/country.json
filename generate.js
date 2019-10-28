@@ -1,4 +1,4 @@
-const { writeFile } = require('fs').promises
+const { writeFile, mkdir } = require('fs').promises
 const { get } = require('axios')
 
 console.log('Fetching data from API ... (Please Wait)')
@@ -23,8 +23,17 @@ Promise.all([
         currency: currency[code],
         calling_code: phone[code]
     }))
-    return writeFile('static/country.json', JSON.stringify(data))
-}).then(() => {
+    return mkdir('static')
+        .then(() => data)
+        .catch(err => {
+            if (err.code === 'EEXIST')
+                return data
+            else
+                throw err
+        })
+}).then(data => (
+    writeFile('static/country.json', JSON.stringify(data))
+)).then(() => {
     console.timeEnd('Generated JSON File ...')
 }).catch(err => {
     console.error(err)
